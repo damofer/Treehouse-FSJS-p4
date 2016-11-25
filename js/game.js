@@ -1,4 +1,7 @@
+
+//Game constructor
  function Game(){
+
 
 	this.turn = 0;
 	this.boxes = ["","","","","","","","",""];
@@ -9,6 +12,7 @@
 	this.player2Score= 0;
 }
 
+//player will use it once the game is ended.
 Game.prototype.restart = function(){
 	
 	this.turn =0;
@@ -26,86 +30,87 @@ Game.prototype.restart = function(){
 	
 
 }
+
+//if someone wins or is a tie then this function runs
+//shows who won this match, and take a record on the player score.
 Game.prototype.finish = function(winner){
 
-$('#player2').toggleClass( "active" );
-$('#player1').toggleClass( "active" );
+	$('#player2').toggleClass( "active" );
+	$('#player1').toggleClass( "active" );
 
-	if(winner == "X"){
-		this.player2Score +=1;
-		this.winner = "Player 2";
-			$("#finish").removeClass();
-			$("#finish").addClass("screen screen-win screen-win-two");
+		if(winner == "X"){
+			this.player2Score +=1;
+			this.winner = "Player 2";
+				$("#finish").removeClass();
+				$("#finish").addClass("screen screen-win screen-win-two");
 
-	} else{
+		} else{
 
-		if(winner=="O"){
-			this.player1Score +=1;
-			this.winner ="Player 1";
-			$("#finish").removeClass();
-			$("#finish").addClass("screen screen-win screen-win-one");
-			
+			if(winner=="O"){
+				this.player1Score +=1;
+				this.winner ="Player 1";
+				$("#finish").removeClass();
+				$("#finish").addClass("screen screen-win screen-win-one");
+				
+			}
+			else{
+				this.winner ="DRAW";
+
+				$("#finish").removeClass();
+				$("#finish").addClass("screen  screen-win screen-win-tie");
+			}
+		}
+
+
+
+	if(this.winner != "DRAW"){
+			$(".message").html("Winner is " + this.winner ) ;
+
+		
+
+
 		}
 		else{
-			this.winner ="DRAW";
-
-			$("#finish").removeClass();
-			$("#finish").addClass("screen  screen-win screen-win-tie");
+			$(".message").html("DRAW");
 		}
-	}
 
+		
+		this.isFinish = true;
 
+		
+		
 
-if(this.winner != "DRAW"){
-		$(".message").html("Winner is " + this.winner ) ;
+		$("#board").hide();
+		$("#finish").show();
+		
+		
 
-	
-
-
-	}
-	else{
-		$(".message").html("DRAW");
-	}
-
-	
-	this.isFinish = true;
-
-	
-	
-
-	$("#board").hide();
-	$("#finish").show();
-	
-	
-
-document.getElementById("#scorePlayer1").innerHTML ="<h1 style='text-align: center'>"+ this.player1Score+"</h1>";
-document.getElementById("#scorePlayer2").innerHTML ="<h1 style='text-align: center'>"+ this.player2Score+"</h1>"
-
-	
-
-
-
-	
+		document.getElementById("#scorePlayer1").innerHTML ="<h1 style='text-align: center'>"+ this.player1Score+"</h1>";
+		document.getElementById("#scorePlayer2").innerHTML ="<h1 style='text-align: center'>"+ this.player2Score+"</h1>"
 
 }
+
+//next turn.
 Game.prototype.endTurn = function(){
 	this.turn +=1;
 }
 
-Game.prototype.checkBoxes=function(){
 
-
-}
+//add a box to the array of current boxes filled.
 Game.prototype.addBox=function(box){
 
 	this.boxes[box.getIndex()]=box.getMark();
 }
+
+//get current turn
 Game.prototype.getCurrentTurn = function(){
 	return this.turn;
 }
 
 
-
+//main game function
+//this function has the game logic handling, depending of the position of the box in a 3x3 board
+//this will tell if someone has won.
    Game.prototype.isWinner=function(player){
 		
 		
